@@ -6,6 +6,8 @@
     "jsx": "react",
     "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src"
+  },
+  "exclude": ["node_modules", "./webpack.config.js"]
 }
