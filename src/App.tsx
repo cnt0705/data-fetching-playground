@@ -2,20 +2,20 @@ import React from 'react'
 import { useTodo } from './hooks/useTodo'
 
 export const App = () => {
-  const { todo, loading, error } = useTodo('1')
+  const data = useTodo('1')
 
-  if (error) {
-    throw error
+  if (data.loading) return <div>Loading...</div>
+
+  if (data.error) {
+    throw data.error
   }
-
-  if (loading) return <div>Loading...</div>
 
   return (
     <div>
       <h1>Fetching data with SWR</h1>
       <ul>
-        <li>{todo?.userId}</li>
-        <li>{todo?.title}</li>
+        <li>{data.todo.userId}</li>
+        <li>{data.todo.title}</li>
       </ul>
     </div>
   )
