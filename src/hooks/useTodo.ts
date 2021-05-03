@@ -25,11 +25,8 @@ type Response =
     }
 
 export const useTodo = (id: string): Response => {
-  const fetcher = (url: string) => fetch(url).then(res => res.json())
-
   const { data, error } = useSWR<Todo, Error>(
-    `https://jsonplaceholder.typicode.com/todos/${id}`,
-    fetcher
+    `https://jsonplaceholder.typicode.com/todos/${id}`
   )
 
   if (error) {
