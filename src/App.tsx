@@ -1,6 +1,6 @@
 import React from 'react'
-import { Todo } from 'components/Todo'
+import { Posts } from 'components/Posts'
 
 export const App = () => {
-  return <Todo />
+  return <Posts />
 }
