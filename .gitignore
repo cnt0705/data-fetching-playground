@@ -4,3 +4,5 @@ logs
 
 dist
 node_modules
+
+db.json

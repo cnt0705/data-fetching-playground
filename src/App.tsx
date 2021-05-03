@@ -1,6 +1,6 @@
 import React from 'react'
-import { Posts } from 'components/Posts'
+import { PostsPage } from 'components/Posts'
 
 export const App = () => {
-  return <Posts />
+  return <PostsPage />
 }
