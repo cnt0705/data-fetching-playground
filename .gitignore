@@ -1,0 +1,6 @@
+.DS_*
+*.log
+logs
+
+dist
+node_modules
