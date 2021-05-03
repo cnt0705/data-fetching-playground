@@ -37,7 +37,7 @@ const fetcher = async (url: string) => {
 
 export const useTodo = (id: string): Response => {
   const { data, error } = useSWR<Todo, Error>(
-    `https://jsonplaceholder.typicode.com/todo/${id}`,
+    `https://jsonplaceholder.typicode.com/todos/${id}`,
     fetcher
   )
 
