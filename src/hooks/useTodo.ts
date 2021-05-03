@@ -16,17 +16,29 @@ type Response =
   | {
       loading: false
       todo: Todo
-      error?: undefined
+      error?: Error
     }
   | {
       loading: false
-      todo?: undefined
+      todo?: Todo
       error: Error
     }
 
+const fetcher = async (url: string) => {
+  const res = await fetch(url)
+
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the data.')
+    throw error
+  }
+
+  return res.json()
+}
+
 export const useTodo = (id: string): Response => {
   const { data, error } = useSWR<Todo, Error>(
-    `https://jsonplaceholder.typicode.com/todos/${id}`
+    `https://jsonplaceholder.typicode.com/todo/${id}`,
+    fetcher
   )
 
   if (error) {
