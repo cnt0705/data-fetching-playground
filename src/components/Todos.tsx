@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTodo } from 'hooks/useTodo'
 
-export const Todo = () => {
+export const TodosPage = () => {
   const data = useTodo('1')
 
   if (data.error) {
