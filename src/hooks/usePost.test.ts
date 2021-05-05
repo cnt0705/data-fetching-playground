@@ -1,0 +1,1 @@
+import { usePosts } from './usePosts'
