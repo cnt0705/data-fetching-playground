@@ -48,7 +48,7 @@ const fetcher = async (url: string) => {
 
 const post = async (currentPosts: Posts) => {
   const newPost = {
-    id: Math.random(),
+    id: Date.now(),
     title: 'New one',
     author: 'You',
   }
