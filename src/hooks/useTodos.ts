@@ -1,31 +1,25 @@
-import useSWR from 'swr'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 type Todo = {
-  userId: number
   id: number
   title: string
   completed: boolean
 }
 
-type Response =
-  | {
-      loading: true
-      todo?: undefined
-      error?: undefined
-    }
-  | {
-      loading: false
-      todo: Todo
-      error?: Error
-    }
-  | {
-      loading: false
-      todo?: Todo
-      error: Error
-    }
+type Todos = Todo[]
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url)
+type Response = {
+  data: Todos | undefined
+  error: Error | null
+  isError: boolean
+  isLoading: boolean
+  addTodo: (title: string) => void
+}
+
+const KEY = 'http://localhost:3000/todos'
+
+const fetcher = async () => {
+  const res = await fetch(KEY)
 
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the data.')
@@ -35,27 +29,45 @@ const fetcher = async (url: string) => {
   return res.json()
 }
 
-export const useTodo = (id: string): Response => {
-  const { data, error } = useSWR<Todo, Error>(
-    `https://jsonplaceholder.typicode.com/todos/${id}`,
+const post = async (newTodo: Todo) => {
+  await fetch(KEY, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newTodo),
+  }).catch(e => {
+    throw e
+  })
+}
+
+export const useTodos = (): Response => {
+  const queryClient = useQueryClient()
+
+  const { data, error, isLoading, isError } = useQuery<Todos, Error>(
+    'todos',
     fetcher
   )
 
-  if (error) {
-    return {
-      loading: false,
-      error,
-    }
-  }
+  const mutation = useMutation(post, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('todos')
+    },
+  })
 
-  if (!data) {
-    return {
-      loading: true,
-    }
+  const addTodo = (title: string) => {
+    mutation.mutate({
+      id: Date.now(),
+      title,
+      completed: false,
+    })
   }
 
   return {
-    loading: false,
-    todo: data,
+    data,
+    error,
+    isError,
+    isLoading,
+    addTodo,
   }
 }
